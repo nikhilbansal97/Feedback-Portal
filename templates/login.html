@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
+</head>
+<body>
+	<div id="signInButton">
+		<span class="g-signin"
+			data-scope="openid email"
+			data-clientid="1035535540420-stqsuv9os3fvnkbbibem79qko2hjgt7h.apps.googleusercontent.com"
+			data-redirecturi="postMessage"
+			data-accesstype="offline"
+			data-cookiepolicy="single_host_origin"
+			data-callback="signInCallback"
+			data-approvalprompt="force">
+		</span>
+	</div>
+	<div id="result"></div>
+	<script>
+		function signInCallback(authResult) {
+			console.log(authResult)
+			if (authResult['code']) {
+				$('#signInButton').attr('style','display:none');
+				$.ajax({
+					type: 'POST',
+					url: '/gconnect?state={{STATE}}',
+					processData: false,
+					contentType: 'application/octet-stream; charset=utf-8',
+					data: authResult['code'],
+					success: function (result) {
+						if (result){
+							$("#result").html("Login Successfull!<br>" + result + "<br>redirecting...");
+							setTimeout(function() {
+								window.location.href = "/";
+							}, 4000);
+						}
+					}
+				})
+			} else if (authResult['error']) {
+				console.log(authResult['error']);
+			} else {
+				$('#result').html("Failed to make server call");
+			}
+		}
+	</script>
+</body>
+</html>

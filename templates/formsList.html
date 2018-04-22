@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+</head>
+<body>
+  {% for form in forms %}
+  <form id="editform{{form.id}}" action="{{url_for('editForm', id=form.id, edit=0)}}" method="POST"></form>
+  <form id="deleteform{{form.id}}" action="{{url_for('deleteForm', id=form.id)}}" method="POST"></form>
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{form.first_name}}</span>
+          <p>Email id: {{form.email_id}}</p>
+          <p>Roll no: {{form.roll}}</p>
+          <p>Quality of food: {{form.food}}</p>
+          <p>Quality of accomodation: {{form.accomodation}}</p>
+          <p>Cleanliness: {{form.clean}}</p>
+          <p>Complaints: {{form.complain}}</p>
+          <p>Staff behaviour: {{form.behaviour}}</p>
+          <p>Medical Facility: {{form.medical}}</p>
+          </div>
+          <div class="card-action">
+            <a onclick="submitEditForm({{form.id}})">Edit</a>
+            <a onclick="submitDeleteForm({{form.id}})">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script>
+    function submitEditForm(id) {
+      console.log("#editform"+id);
+      $('#editform'+id).submit();
+    };
+    function submitDeleteForm(id) {
+      console.log("#deleteform" + id);
+      $('#deleteform'+id).submit();
+    };
+  </script>
+  </body>
+</html>

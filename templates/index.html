@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+</head>
+<body>
+  <div class="row">
+    <h2 class="col s9">FeedBack Form</h2></br>
+    {% if login == 1 %}
+    <p class="col s1">{{username}}</p>
+    <a href="{{url_for('showAllForms')}}"><input type="button" class="col s1 waves-effect waves-light btn right" value="Console"/></a>
+    <a href="{{url_for('gdisconnect')}}"><input type="button" class="col s1 waves-effect waves-light btn right" value="Logout"/></a>
+    {%else%}
+    <p class="col s1">Not Logged in</p>
+    <a href="{{url_for('showAllForms')}}"><input type="button" class="col s1 disabled waves-effect waves-light btn right" value="Console"/></a>
+    <a href="{{url_for('login')}}"><input type="button" class="col s1 waves-effect waves-light btn right" value="Login"/></a>
+    {%endif%}
+  </div>
+  <div class="row">
+    {%if edit == 1%}
+    <form class="col s12" method="POST" action="{{url_for('editForm', id=form.id, edit=1)}}">
+    {%else%}
+    <form class="col s12" method="POST" action="{{url_for('insertFormData')}}">
+    {%endif%}
+      <div class="row">
+        <div class="input-field col s6">
+          {% if edit == 0 %}
+          <input id="first_name" name="first_name" type="text" class="validate">
+          {% else %}
+          <input id="first_name" value="{{form.first_name}}" name="first_name" type="text" class="validate">
+          {% endif %}
+          <label for="first_name">First Name</label>
+        </div>
+        <div class="input-field col s6">
+          {% if edit == 0 %}
+          <input id="last_name" name="last_name" type="text" class="validate">
+          {% else %}
+          <input id="last_name" value="{{form.last_name}}" name="last_name" type="text" class="validate"></input>
+          {% endif %}
+          <label for="last_name">Last Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          {% if edit == 0 %}
+          <input id="email" name="email" type="email" class="validate">
+          {% else %}
+          <input id="email" value="{{form.email_id}}" name="email" type="email" class="validate"></input>
+          {% endif %}
+          <label for="email">Email Id</label>
+        </div>
+        <div class="input-field col s6">
+          {% if edit == 0 %}
+          <input id="roll" name="roll" type="number" class="validate">
+          {% else %}
+          <input id="roll" value="{{form.roll}}" name="roll" type="number" class="validate"></input>
+          {% endif %}
+          <label for="email">Roll Number</label>
+        </div>
+      </div>
+      <div class="row">
+        <!-- FOOD -->
+          <div class="input-field col s6">
+            {%if edit == 0%}
+            <input id="food" name="food" type="text" class="validate">
+            {%else%}
+            <input id="food" value="{{form.food}}" name="food" type="text" class="validate"></input>
+            {%endif%}
+            <label for="food">Quality of Food</label>
+          </div>
+        <!-- Accomodation -->
+          <div class="input-field col s6">
+            {%if edit == 0%}
+            <input id="accomodation" name="accomodation" type="text" class="validate">
+            {%else%}
+            <input id="accomodation" value="{{form.accomodation}}" name="accomodation" type="text" class="validate"></input>
+            {%endif%}
+            <label for="accomodation">Quality of Acomodation</label>
+          </div>
+      </div>
+      <div class="row">
+        <!-- Cleanliness -->
+          <div class="input-field col s6">
+            {%if edit == 0%}
+            <input id="cleanliness" name="cleanliness" type="text" class="validate">
+            {%else%}
+            <input id="cleanliness" value="{{form.clean}}" name="cleanliness" type="text" class="validate"></input>
+            {%endif%}
+            <label for="cleanliness">Cleanliness</label>
+          </div>
+        <!-- Complain -->
+          <div class="input-field col s6">
+            {%if edit == 0%}
+            <input id="complain" name="complain" type="text" class="validate">
+            {%else%}
+            <input id="complain" value="{{form.complain}}" name="complain" type="text" class="validate"></input>
+            {%endif%}
+            <label for="complain">Complaints</label>
+          </div>
+      </div>
+      <div class="row">
+        <!-- Behavior -->
+          <div class="input-field col s6">
+            {%if edit == 0%}
+            <input id="behaviour" name="behaviour" type="text" class="validate">
+            {%else%}
+            <input id="behaviour" value="{{form.behaviour}}" name="behaviour" type="text" class="validate"></input>
+            {%endif%}
+            <label for="behaviour">Staff Behaviour</label>
+          </div>
+        <!-- Medical -->
+          <div class="input-field col s6">
+            {%if edit == 0%}
+            <input id="medical" name="medical" type="text" class="validate">
+            {%else%}
+            <input id="medical" value="{{form.medical}}" name="medical" type="text" class="validate"></input>
+            {%endif%}
+            <label for="medical">Medical Facility</label>
+          </div>
+      </div>
+      <input type="submit" class="waves-effect waves-light btn"/>
+    </form>
+  </div>
+</body>
+</html>
