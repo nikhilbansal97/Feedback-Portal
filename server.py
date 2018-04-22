@@ -20,6 +20,9 @@ Base.metadata.bind = engine
 Session = sessionmaker(bind=engine)
 session = Session()
 
+ADMIN_USERNAME = "Nikhil Bansal"
+ADMIN_EMAIL = "nikhil97.nb@gmail.com"
+
 @app.route('/')
 @app.route('/form/new')
 def displayForm():
@@ -119,10 +122,7 @@ def gconnect():
     if stored_credentials is not None and gplus_id == stored_gplus_id:
         response = make_response(json.dumps("User is already logged in"), 200)
         response.headers['Content-Type'] = "application/json"
-        return response
-    # Store the acess token in the login session for later use
-    lSession['access_token'] = credentials.access_token
-    lSession['gplus_id'] = gplus_id
+        return response    
 
     # Get user info
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
@@ -130,29 +130,25 @@ def gconnect():
     answer = requests.get(userinfo_url, params=params)
     data = json.loads(answer.text)
 
-    lSession['username'] = data["name"]
-    lSession['picture'] = data["picture"]
-    lSession['email'] = data["email"]
+    if ADMIN_USERNAME == data["name"] and ADMIN_EMAIL == data["email"]:
+        lSession['username'] = data["name"]
+        lSession['picture'] = data["picture"]
+        lSession['email'] = data["email"]
+        lSession['access_token'] = credentials.access_token
+        lSession['gplus_id'] = gplus_id
 
-    # userInfo = session.query(User).filter_by(email=data["email"]).one_or_none()
-    # # If a new user is logged in, then generate an random api key and add it
-    # # to the Users table.
-    # if userInfo is None:
-    #     newUser = User(name=data["name"], email=data[
-    #                    "email"], api_key=getRandomToken())
-    #     session.add(newUser)
-    #     session.commit()
-
-    output = ''
-    output += '<h1>Welcome, '
-    output += lSession['username']
-    output += '!</h1>'
-    output += '<img src="'
-    output += lSession['picture']
-    output += ' " style="width:300px;height:300px;'
-    output += 'border-radius:150px;-webkit-border-radius:150px;'
-    output += '-moz-border-radius:150px;"> '
-    print("done!")
+        output = ''
+        output += '<h1>Welcome, '
+        output += lSession['username']
+        output += '!</h1>'
+        output += '<img src="'
+        output += lSession['picture']
+        output += ' " style="width:300px;height:300px;'
+        output += 'border-radius:150px;-webkit-border-radius:150px;'
+        output += '-moz-border-radius:150px;"> '
+        print("done!")
+    else:
+        output = "<h2>User is not the Admin of the portal.</h2>"
     return output
 
 
